@@ -1,0 +1,32 @@
+{
+  "name": "repolint",
+  "version": "1.0.0",
+  "description": "NPM package repository linter",
+  "engines": {
+    "node": ">=6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/madarche/npm-repolint.git"
+  },
+  "keywords": [
+    "quality",
+    "best practices",
+    "good practices",
+    "check",
+    "github",
+    "git"
+  ],
+  "author": "Marc-Aurèle DARCHE <ma.darche@cynode.org> (https://github.com/madarche)",
+  "license": "MIT",
+  "homepage": "https://github.com/madarche/npm-repolint",
+  "devDependencies": {
+    "eslint": "3.18.0",
+    "eslint-config-usecases": "1.1.0"
+  },
+  "scripts": {
+    "posttest": "npm run lint",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  }
+}
