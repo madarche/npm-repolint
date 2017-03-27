@@ -18,6 +18,7 @@
     "git"
   ],
   "author": "Marc-Aurèle DARCHE <ma.darche@cynode.org> (https://github.com/madarche)",
+  "contributors": ["Mohammed Malik HADADI <malik.hadadi@gmail.com> (https://github.com/kyuuk)"],
   "license": "MIT",
   "homepage": "https://github.com/madarche/npm-repolint",
   "devDependencies": {
