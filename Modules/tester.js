@@ -18,7 +18,7 @@ let getPackageJSON = function(repo, done) {
     //let url = 'https://api.github.com/search/code?q=' + code + '+repo:' + repo + '+filename:' + file
     let url = 'https://api.github.com/repos/' + repo.full_name + '/contents/package.json'
     requester.search(url, (result) => {
-        if (GLOBAL.DEBUG) {
+        if (global.DEBUG) {
             console.log('getPackageJSON ' + repo.full_name + ' : ' + result)
             console.log('getPackageJSON ' + repo.full_name + ' : ' + result.download_url)
         }
@@ -34,7 +34,7 @@ let getReadme = function(repo, done) {
 
     let url = 'https://api.github.com/repos/' + repo.full_name + '/contents/README.md'
     requester.search(url, (result) => {
-        if (GLOBAL.DEBUG) {
+        if (global.DEBUG) {
             console.log('getREADME ' + repo.full_name + ' : ' + result)
             console.log('getReadmeURL ' + repo.full_name + ' : ' + result.download_url)
         }
@@ -55,7 +55,7 @@ let testString = function(repo, readme, string) {
 }
 
 let existField = function(json, field, repo) {
-    if (GLOBAL.DEBUG) {
+    if (global.DEBUG) {
         console.log('exist ' + field + ' : ' + json[field])
     }
     if (json[field] === undefined) {
@@ -64,7 +64,7 @@ let existField = function(json, field, repo) {
 }
 
 let exisEsLint = function(json, repo) {
-    if (GLOBAL.DEBUG) {
+    if (global.DEBUG) {
         console.log('exist EsLint : ' + json.devDependencies)
     }
     if (json.devDependencies === undefined || json.devDependencies.eslint === undefined) {
@@ -73,13 +73,13 @@ let exisEsLint = function(json, repo) {
 }
 
 let write = function(file, text) {
-    if (!fs.existsSync(GLOBAL.ROOT_DIR)) {
-        fs.mkdirSync(GLOBAL.ROOT_DIR)
+    if (!fs.existsSync(global.ROOT_DIR)) {
+        fs.mkdirSync(global.ROOT_DIR)
     }
-    if (GLOBAL.DEBUG) {
+    if (global.DEBUG) {
         console.log('Write to : ' + file)
     }
-    fs.writeFileSync(GLOBAL.ROOT_DIR + file, text + os.EOL, {
+    fs.writeFileSync(global.ROOT_DIR + file, text + os.EOL, {
         flag: 'a'
     }, (err) => {
         if (err) {

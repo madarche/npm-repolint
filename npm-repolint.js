@@ -1,15 +1,22 @@
 'use strict'
-GLOBAL.DEBUG = false
-GLOBAL.ROOT_DIR = __dirname + '/result/'
+global.DEBUG = false
+global.ROOT_DIR = __dirname + '/result/'
 let checker = require('./Modules/tester')
 let requester = require('./Modules/requester')
 let page = 1
 let done = 0
 let args = process.argv.slice(2)
-if (args.length >= 2 && !isNaN(args[0])) {
+if (args.length > 0) {
+    if (args[0] === '--help') {
+        printUsage()
+    } else if (!NaN(args[0])) {
+        let limit = args[0]
+        if (args.length > 1) {
+            requester.setToken(args[1])
+        }
+    }
 
-    requester.setToken(args[1])
-    let limit = args[0]
+
     while (done < limit) {
         if (done > 0) {
             page++
@@ -28,7 +35,7 @@ if (args.length >= 2 && !isNaN(args[0])) {
                 for (let i in result.items) {
                     //verification si package.json exite dans le repo
                     checker.existPackageJson(result.items[i], 'package.json', (resultat, repo) => {
-                        if (GLOBAL.DEBUG) {
+                        if (global.DEBUG) {
                             console.log('current repo : ' + repo.full_name)
                             console.log('exist JSONfile : ' + resultat)
                         }
@@ -54,13 +61,15 @@ if (args.length >= 2 && !isNaN(args[0])) {
         })
         done += 100
     }
-    console.log('Results are to be written in ' + GLOBAL.ROOT_DIR)
+    console.log('Results are to be written in ' + global.ROOT_DIR)
 } else {
+    printUsage()
+}
+
+
+let printUsage = function() {
     console.log('usage :\n\
-\t nodejs npm-repolint limit Oauth-token\n\n\
+\t node npm-repolint limit Oauth-token\n\n\
 limit :\t\t Number of repositories to be computed\n\
 Oauth-token :\t Your personal API token (see https://github.com/blog/1509-personal-api-tokens)')
-}
-let end = function(end) {
-    done = end
 }
