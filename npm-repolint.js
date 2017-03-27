@@ -1,16 +1,19 @@
 'use strict'
+const checker = require('./Modules/tester')
+const requester = require('./Modules/requester')
+const path = require('path')
 global.DEBUG = false
-global.ROOT_DIR = __dirname + '/result/'
-let checker = require('./Modules/tester')
-let requester = require('./Modules/requester')
+global.ROOT_DIR = path.join(__dirname, '/result/')
 let page = 1
 let done = 0
+let limit = 0
 let args = process.argv.slice(2)
 if (args.length > 0) {
     if (args[0] === '--help') {
         printUsage()
-    } else if (!NaN(args[0])) {
-        let limit = args[0]
+        process.exit()
+    } else if (!isNaN(args[0])) {
+        limit = args[0]
         if (args.length > 1) {
             requester.setToken(args[1])
         }
@@ -29,7 +32,6 @@ if (args.length > 0) {
                 } else {
                     console.log('unexpected error. please try again')
                 }
-                end(10000)
                 process.exit()
             } else {
                 for (let i in result.items) {
@@ -67,9 +69,9 @@ if (args.length > 0) {
 }
 
 
-let printUsage = function() {
+function printUsage() {
     console.log('usage :\n\
-\t node npm-repolint limit Oauth-token\n\n\
-limit :\t\t Number of repositories to be computed\n\
+\t node npm-repolint limit [Oauth-token]\n\n\
+limit :\t\t Number of repositories to be processed\n\
 Oauth-token :\t Your personal API token (see https://github.com/blog/1509-personal-api-tokens)')
 }

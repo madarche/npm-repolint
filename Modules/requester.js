@@ -4,13 +4,25 @@ const https = require('https')
 let token
 
 let searchRepo = function(language, page, callback) {
-    let options = {
-        hostname: 'api.github.com',
-        path: '/search/repositories?q=language:' + language + '&sort=pushed,stars&scope=public&order=desc&per_page=100&page=' + page,
-        method: 'GET',
-        headers: {
-            'user-agent': 'npm-repolint',
-            Authorization: 'token ' + token
+    let options
+    if (token !== undefined) {
+        options = {
+            hostname: 'api.github.com',
+            path: '/search/repositories?q=language:' + language + '&sort=pushed,stars&scope=public&order=desc&per_page=100&page=' + page,
+            method: 'GET',
+            headers: {
+                'user-agent': 'npm-repolint',
+                Authorization: 'token ' + token
+            }
+        }
+    } else {
+        options = {
+            hostname: 'api.github.com',
+            path: '/search/repositories?q=language:' + language + '&sort=pushed,stars&scope=public&order=desc&per_page=100&page=' + page,
+            method: 'GET',
+            headers: {
+                'user-agent': 'npm-repolint'
+            }
         }
     }
     https.get(options, (res) => {
