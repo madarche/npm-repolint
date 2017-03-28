@@ -1,9 +1,10 @@
+/* eslint-disable no-console */
 'use strict'
 const https = require('https')
 
 let token
 
-let searchRepo = function(language, page, callback) {
+function searchRepo(language, page, callback) {
     let options
     if (token !== undefined) {
         options = {
@@ -38,7 +39,8 @@ let searchRepo = function(language, page, callback) {
     })
 
 }
-let search = function(url, callback) {
+
+function search(url, callback) {
     let options = {
         hostname: 'api.github.com',
         path: url,
@@ -62,7 +64,8 @@ let search = function(url, callback) {
     })
 
 }
-let simpleGet = function(url, callback) {
+
+function simpleGet(url, callback) {
     https.get(url, (res) => {
         let body = ''
         res.on('data', (d) => {
@@ -74,7 +77,8 @@ let simpleGet = function(url, callback) {
         })
     })
 }
-let simpleGetRaw = function(url, callback) {
+
+function simpleGetRaw(url, callback) {
     https.get(url, (res) => {
         let body = ''
         res.on('data', (d) => {
@@ -86,9 +90,11 @@ let simpleGetRaw = function(url, callback) {
         })
     })
 }
-let setToken = function(userToken) {
+
+function setToken(userToken) {
     token = userToken
 }
+
 
 module.exports = {
     searchRepo: searchRepo,

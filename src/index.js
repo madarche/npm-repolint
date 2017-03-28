@@ -1,9 +1,12 @@
+/* eslint-disable no-console */
 'use strict'
-const checker = require('./Modules/tester')
-const requester = require('./Modules/requester')
 const path = require('path')
-global.DEBUG = false
-global.ROOT_DIR = path.join(__dirname, '/result/')
+const config = {
+    DEBUG: false,
+    root_dir_path: path.join(__dirname, '/result/')
+}
+const checker = require('./lib/tester')(config)
+const requester = require('./lib/requester')
 let page = 1
 let done = 0
 let limit = 0
@@ -37,7 +40,7 @@ if (args.length > 0) {
                 for (let i in result.items) {
                     //verification si package.json exite dans le repo
                     checker.existPackageJson(result.items[i], 'package.json', (resultat, repo) => {
-                        if (global.DEBUG) {
+                        if (config.DEBUG) {
                             console.log('current repo : ' + repo.full_name)
                             console.log('exist JSONfile : ' + resultat)
                         }
@@ -63,7 +66,7 @@ if (args.length > 0) {
         })
         done += 100
     }
-    console.log('Results are to be written in ' + global.ROOT_DIR)
+    console.log('Results are to be written in ' + config.root_dir_path)
 } else {
     printUsage()
 }
