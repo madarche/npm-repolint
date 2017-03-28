@@ -5,6 +5,7 @@
   "engines": {
     "node": ">=6"
   },
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/madarche/npm-repolint.git"
@@ -18,6 +19,7 @@
     "git"
   ],
   "author": "Marc-Aurèle DARCHE <ma.darche@cynode.org> (https://github.com/madarche)",
+  "contributors": ["Mohammed Malik HADADI <malik.hadadi@gmail.com> (https://github.com/kyuuk)"],
   "license": "MIT",
   "homepage": "https://github.com/madarche/npm-repolint",
   "devDependencies": {
