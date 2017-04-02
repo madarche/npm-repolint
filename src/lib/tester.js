@@ -5,7 +5,7 @@ const requester = require('./requester')
 const fs = require('fs')
 const os = require('os')
 
-function existPackageJson(repo, file, done) {
+function existFile(repo, file, done) {
     let url = 'https://api.github.com/search/code?q=repo:' + repo.full_name + '+filename:' + file
     requester.search(url, (result) => {
 
@@ -28,12 +28,14 @@ function getPackageJSON(repo, done) {
 
         if (result.download_url !== undefined) {
             requester.get(result.download_url, (res) => {
-                done(res, repo)
+                result = JSON.parse(res)
+                done(result, repo)
             })
         }
     })
 }
 
+//TODO factorize with getPackageJSON
 function getReadme(repo, done) {
 
     let url = 'https://api.github.com/repos/' + repo.full_name + '/contents/README.md'
@@ -43,7 +45,7 @@ function getReadme(repo, done) {
             console.log('getReadmeURL ' + repo.full_name + ' : ' + result.download_url)
         }
         if (result.download_url !== undefined) {
-            requester.getRaw(result.download_url, (res) => {
+            requester.get(result.download_url, (res) => {
                 done(res, repo)
             })
         }
@@ -68,7 +70,7 @@ function existField(json, field, repo) {
     }
 }
 
-function exisEsLint(json, repo) {
+function existEsLint(json, repo) {
     if (config.DEBUG) {
         console.log('exist EsLint : ' + json.devDependencies)
     }
@@ -96,21 +98,12 @@ let config
 module.exports = function(a_config) {
     config = a_config
     return {
-        existPackageJson,
+        existFile,
         getPackageJSON,
         getReadme,
         testString,
         existField,
-        exisEsLint
+        existEsLint,
+        write
     }
 }
-/*
-module.exports = {
-    existPackageJson: existPackageJson,
-    getPackageJSON: getPackageJSON,
-    getReadme: getReadme,
-    testString: testString,
-    existField: existField,
-    exisEsLint: exisEsLint
-}
-*/
