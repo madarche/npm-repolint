@@ -2,7 +2,7 @@
 'use strict'
 const path = require('path')
 const config = {
-    DEBUG: false,
+    DEBUG: true,
     root_dir_path: path.join(__dirname, '/result/')
 }
 const checker = require('./lib/tester')(config)
