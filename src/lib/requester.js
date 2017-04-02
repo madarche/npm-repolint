@@ -4,12 +4,12 @@ const https = require('https')
 
 let token
 
-function searchRepo(language, page, callback) {
+function search(url, callback) {
     let options
     if (token !== undefined) {
         options = {
             hostname: 'api.github.com',
-            path: '/search/repositories?q=language:' + language + '&sort=pushed,stars&scope=public&order=desc&per_page=100&page=' + page,
+            path: url,
             method: 'GET',
             headers: {
                 'user-agent': 'npm-repolint',
@@ -19,7 +19,7 @@ function searchRepo(language, page, callback) {
     } else {
         options = {
             hostname: 'api.github.com',
-            path: '/search/repositories?q=language:' + language + '&sort=pushed,stars&scope=public&order=desc&per_page=100&page=' + page,
+            path: url,
             method: 'GET',
             headers: {
                 'user-agent': 'npm-repolint'
@@ -39,7 +39,8 @@ function searchRepo(language, page, callback) {
     })
 
 }
-
+/*
+//TODO factorize with search repo
 function search(url, callback) {
     let options = {
         hostname: 'api.github.com',
@@ -65,6 +66,7 @@ function search(url, callback) {
 
 }
 
+//TODO factorize with simpleGetRaw
 function simpleGet(url, callback) {
     https.get(url, (res) => {
         let body = ''
@@ -77,8 +79,8 @@ function simpleGet(url, callback) {
         })
     })
 }
-
-function simpleGetRaw(url, callback) {
+*/
+function simpleGet(url, callback) {
     https.get(url, (res) => {
         let body = ''
         res.on('data', (d) => {
@@ -97,9 +99,7 @@ function setToken(userToken) {
 
 
 module.exports = {
-    searchRepo: searchRepo,
     search: search,
     get: simpleGet,
-    getRaw: simpleGetRaw,
     setToken: setToken
 }
