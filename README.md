@@ -3,7 +3,7 @@
 [![NPM version](http://img.shields.io/npm/v/repolint.svg)](https://www.npmjs.org/package/repolint)
 
 usage :
-    node npm-repolint limit [Oauth-token]
+    node src/index.js limit [Oauth-token]
 
 limit :		 Number of repositories to be processed
 Oauth-token :	 Your personal API token (see https://github.com/blog/1509-personal-api-tokens)

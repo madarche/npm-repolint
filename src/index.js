@@ -2,7 +2,7 @@
 'use strict'
 const path = require('path')
 const config = {
-    DEBUG: false,
+    DEBUG: true,
     root_dir_path: path.join(__dirname, '/result/')
 }
 const checker = require('./lib/tester')(config)
@@ -28,7 +28,9 @@ if (args.length > 0) {
             page++
         }
         console.log('page : ' + page)
-        requester.searchRepo('javascript', page, (result) => {
+        let language = 'javascript'
+        let url = '/search/repositories?q=language:' + language + '&sort=pushed,stars&scope=public&order=desc&per_page=100&page=' + page
+        requester.search(url, (result) => {
             if (result.total_count === undefined) {
                 if (result.message !== undefined) {
                     console.log(result.message)
@@ -39,7 +41,17 @@ if (args.length > 0) {
             } else {
                 for (let i in result.items) {
                     //verification si package.json exite dans le repo
-                    checker.existPackageJson(result.items[i], 'package.json', (resultat, repo) => {
+                    checker.existFile(result.items[i], 'LICENSE', (resultat, repo) => {
+                        if (!resultat) {
+                            checker.write('LICENSE_FILE', repo.full_name)
+                        }
+                    })
+                    checker.existFile(result.items[i], '.editorconfig', (resultat, repo) => {
+                        if (!resultat) {
+                            checker.write('editorconfig', repo.full_name)
+                        }
+                    })
+                    checker.existFile(result.items[i], 'package.json', (resultat, repo) => {
                         if (config.DEBUG) {
                             console.log('current repo : ' + repo.full_name)
                             console.log('exist JSONfile : ' + resultat)
@@ -50,7 +62,7 @@ if (args.length > 0) {
                                 checker.existField(packageJson, 'description', repo)
                                 checker.existField(packageJson, 'license', repo)
                                 checker.existField(packageJson, 'repository', repo)
-                                checker.exisEsLint(packageJson, repo)
+                                checker.existEsLint(packageJson, repo)
                             })
                             // verif des badges
                             checker.getReadme(repo, (res, repo) => {
@@ -74,7 +86,8 @@ if (args.length > 0) {
 
 function printUsage() {
     console.log('usage :\n\
-\t node npm-repolint limit [Oauth-token]\n\n\
+\t node index.js limit [Oauth-token]\n\n\
 limit :\t\t Number of repositories to be processed\n\
-Oauth-token :\t Your personal API token (see https://github.com/blog/1509-personal-api-tokens)')
+Oauth-token :\t Your personal API token (see https://github.com/blog/1509-personal-api-tokens)\n\
+--help: \t\t Print this message ')
 }
