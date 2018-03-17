@@ -28,8 +28,9 @@ It uses the GitHub API to find those projects which do not have:
 ## List of parameters
 
 * usage :
+    ```javascript
     node src/index.js limit [Oauth-token]
-
+    ```
 * limit :         Number of repositories to be processed
 * Oauth-token :     Your personal API token (see       https://github.com/blog/1509-personal-api-tokens)
 
