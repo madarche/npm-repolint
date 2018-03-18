@@ -25,19 +25,18 @@ It uses the GitHub API to find those projects which do not have:
 
 * an ESLint test
 
-## List of parameters
+## Usage
 
-* usage :
-    ```javascript
+```shell
     node src/index.js limit [Oauth-token]
-    ```
+```
 * limit :         Number of repositories to be processed
 * Oauth-token :     Your personal API token (see       https://github.com/blog/1509-personal-api-tokens)
 
 ### Oauth-token
 
-Token needed for authenticated API requests
-Github API request are limited to 30 for unauthenticated requests
+Token needed for authenticated API requests.
+Github API requests are limited to 30 for unauthenticated requests
 so this application will only compute 15 repositories if no token is provided
 
 ## Todo
